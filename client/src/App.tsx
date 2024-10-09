@@ -1,12 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {HeaderComponent} from "./components/HeaderComponent";
 
 function App() {
   return (
-    <div className="App">
-      <HeaderComponent/>
+    <div className="w-[100vw] h-[100vh] flex flex-row items-center justify-center">
+        <div className={"mockup-phone"}>
+            <div className="camera"></div>
+            <div className="display">
+                <div className="artboard artboard-demo phone-1">Hi.</div>
+            </div>
+        </div>
     </div>
   );
 }
