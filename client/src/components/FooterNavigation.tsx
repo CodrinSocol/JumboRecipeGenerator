@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import {ReactElement} from 'react';
 import { FaHome, FaStore, FaUtensils, FaTags, FaShoppingCart } from 'react-icons/fa';
 
-const Footer: React.FC = () => {
-    const [selected, setSelected] = useState<number | null>(null);
+interface FooterProps {
+    selected: number;
+    setSelected: (index: number) => void;
+}
+export function Footer ({selected, setSelected}: FooterProps): ReactElement {
 
     const handleClick = (index: number) => {
         setSelected(index);
     };
 
     return (
-        <div className="flex justify-center w-full">
+        <div className="flex justify-center w-full border-t-2 border-gray-300">
             <div className="w-full max-w-[440px] h-[60px] flex justify-around items-center">
-                <div onClick={() => handleClick(selected === 0 ? 1 : 0)} className={`flex flex-col items-center ${selected === 0 ? 'text-yellow-500' : ''}`}>
+                <div onClick={() => handleClick(0)} className={`flex flex-col items-center ${selected === 0 ? 'text-yellow-500' : ''}`}>
                     <FaHome size={24} />
                     <span className="text-sm">Home</span>
                 </div>
@@ -34,6 +37,4 @@ const Footer: React.FC = () => {
         </div>
         </div>
     );
-};
-
-export default Footer;
+}
