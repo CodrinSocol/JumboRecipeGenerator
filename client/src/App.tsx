@@ -1,6 +1,6 @@
 import {ReactElement, useState} from 'react';
 import {Footer} from "./components/FooterNavigation";
-import {Homepage} from "./components/pages/Homepage";
+import {Homepage} from "./components/pages/Homepage/Homepage";
 import {ShoppingCart} from "./components/pages/ShoppingCart";
 
 function App() {
