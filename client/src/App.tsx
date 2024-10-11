@@ -1,7 +1,7 @@
 import {ReactElement, useState} from 'react';
 import {Footer} from "./components/FooterNavigation";
 import {Homepage} from "./components/pages/Homepage/Homepage";
-import {ShoppingCart} from "./components/pages/ShoppingCart";
+import {ShoppingCart} from "./components/pages/ShoppingCart/ShoppingCart";
 
 function App() {
     const [selected, setSelected] = useState<number>(0);
