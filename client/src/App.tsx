@@ -1,5 +1,5 @@
 import {ReactElement, useState} from 'react';
-import {Homepage} from "./components/pages/Homepage";
+import {Homepage} from "./components/pages/Homepage/Homepage";
 import {Footer} from "./components/FooterNavigation";
 
 function App() {
