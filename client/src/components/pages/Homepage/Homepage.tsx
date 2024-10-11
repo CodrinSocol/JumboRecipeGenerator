@@ -1,24 +1,26 @@
-import {MdOutlineAccountCircle} from "react-icons/md";
 import {ListComponent} from "./ListComponent";
+import {VscAccount} from "react-icons/vsc";
 
 const melkSrc = require("./Melk.png")
 const knokSrc = require("./rookworst.png")
 const snacks = require("./snacks.png")
+const jumbo = require("./jumbologo.png")
 
 export function Homepage() {
   return (
       <div className="w-full h-full flex flex-col gap-4 p-4">
+          <div className={"flex flex-row justify-between"}>
+              <img src={jumbo} alt={'asd'} className={"pt-1 rounded-xl object-contain w-32 h-fit"}/>
+              <div>
+                  <VscAccount className={"w-8 h-8 text-black mr-2 mt-2"}/>
+              </div>
+          </div>
 
-          <div>3333</div>
-          {/*<div className={"w-full flex flex-row items-center gap-4 "}>*/}
-          {/*    <MdOutlineAccountCircle className={"h-10 w-10 text-black"}/>*/}
-          {/*    <div className={"h-full flex flex-row items-end justify-end"}>*/}
-          {/*        Hi, Ting!*/}
-          {/*    </div>*/}
-          {/*</div>*/}
 
-          <div>
-              <input type="text" placeholder={"Zoek een product"} className={"input input-primary input-ghost input-sm"}/>
+          <div className={"flex flex-col"}>
+              <span className={"text-black font-bold"}>Hi Ting!</span>
+              <input type="text" placeholder={"Zoek een product"}
+                     className={"input input-primary input-ghost input-sm"}/>
           </div>
           <div className={"flex flex-col gap-8"}>
               <div className={"flex flex-col gap-1"}>
