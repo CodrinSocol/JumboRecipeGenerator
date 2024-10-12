@@ -1,6 +1,7 @@
 import {ReactElement, useState} from 'react';
-import {Homepage} from "./components/pages/Homepage/Homepage";
 import {Footer} from "./components/FooterNavigation";
+import {Homepage} from "./components/pages/Homepage/Homepage";
+import {ShoppingCart} from "./components/pages/ShoppingCart/ShoppingCart";
 
 function App() {
     const [selected, setSelected] = useState<number>(0);
@@ -23,6 +24,7 @@ function App() {
 function getContentToRender(selected: number): ReactElement {
     switch(selected) {
         case 0: return <Homepage />;
+        case 4: return <ShoppingCart />;
         default: return <div>Not implemented</div>;
     }
 }
