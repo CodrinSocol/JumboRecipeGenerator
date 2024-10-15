@@ -12,8 +12,8 @@ export function Footer ({selected, setSelected}: FooterProps): ReactElement {
     };
 
     return (
-        <div className="flex justify-center w-full border-t-2 border-gray-300">
-            <div className="w-full max-w-[440px] h-[60px] flex justify-around items-center">
+        <div className="flex justify-center w-full h-[60px] border-t-2 border-gray-300">
+            <div className="w-full h-full flex flex-row justify-evenly items-center">
                 <div onClick={() => handleClick(0)} className={`flex flex-col items-center ${selected === 0 ? 'text-yellow-500' : ''}`}>
                     <FaHome size={24} />
                     <span className="text-sm">Home</span>
@@ -28,11 +28,11 @@ export function Footer ({selected, setSelected}: FooterProps): ReactElement {
                 </div>
                 <div onClick={() => handleClick(3)} className={`flex flex-col items-center ${selected === 3 ? 'text-yellow-500' : ''}`}>
                     <FaTags size={24} />
-                    <span className="text-sm">Promotions</span>
+                    <span className="text-sm">Promo's</span>
                 </div>
                 <div onClick={() => handleClick(4)} className={`flex flex-col items-center ${selected === 4 ? 'text-yellow-500' : ''}`}>
                     <FaShoppingCart size={24} />
-                    <span className="text-sm">Shopping Cart</span>
+                    <span className="text-sm">Your Cart</span>
                 </div>
         </div>
         </div>
