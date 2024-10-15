@@ -1,5 +1,6 @@
 import {ListComponent} from "./ListComponent";
 import {VscAccount} from "react-icons/vsc";
+import {MdOutlineArrowForward} from "react-icons/md";
 
 const melkSrc = require("./Melk.png")
 const knokSrc = require("./rookworst.png")
@@ -24,7 +25,10 @@ export function Homepage() {
           </div>
           <div className={"flex flex-col gap-8"}>
               <div className={"flex flex-col gap-1"}>
-                  <span className={"text-black font-semibold"}>Populaire listjes</span>
+                  <div className={"flex flex-row justify-between items-center"}>
+                      <span className={"text-black font-semibold"}>Populaire listjes</span>
+                      <MdOutlineArrowForward className={"font-semibold text-lg text-black cursor-pointer"}/>
+                  </div>
                   <div className={"flex flex-row w-full h-fit gap-4"}>
                       <ListComponent
                           imageSrc={melkSrc}
@@ -39,7 +43,10 @@ export function Homepage() {
               </div>
 
               <div className={"flex flex-col gap-1"}>
-                  <span className={"text-black font-semibold"}>Voor jouw</span>
+                  <div className={"flex flex-row justify-between items-center"}>
+                      <span className={"text-black font-semibold"}>Voor jouw</span>
+                      <MdOutlineArrowForward className={"font-semibold text-lg text-black cursor-pointer"}/>
+                  </div>
                   <div className={"flex flex-row w-full h-fit gap-4"}>
                       <ListComponent
                           imageSrc={melkSrc}
@@ -50,6 +57,37 @@ export function Homepage() {
                       <ListComponent
                           imageSrc={snacks}
                           title={"Mini Snacks"}/>
+                  </div>
+              </div>
+
+              <div className={"flex flex-col gap-1"}>
+                  <div className={"flex flex-row justify-between items-center"}>
+                      <span className={"text-black font-semibold"}>Acties</span>
+                      <MdOutlineArrowForward className={"font-semibold text-lg text-black cursor-pointer"}/>
+                  </div>
+                  <div className={"flex flex-row w-full h-fit gap-4"}>
+                      <ListComponent
+                          imageSrc={melkSrc}
+                          title={"Halfvolle Melk 1L"}
+                          isOffer={true}
+                          offerLabel={"2+1"}/>
+                      <ListComponent
+                          imageSrc={knokSrc}
+                          title={"UNIX rookworst"}
+                          isOffer={true}
+                          offerLabel={"3 voor 4.00"}/>
+                      <ListComponent
+                          imageSrc={snacks}
+                          title={"Mini Snacks"}
+                          isOffer={true}
+                          offerLabel={"2e halve prijs"}
+                      />
+                  </div>
+              </div>
+              <div className={"flex flex-col gap-2"}>
+                  <span className={"flex flex-col gap-2 text-black font-semibold"}>Get Inspired!</span>
+                  <div className={"w-full h-fit flex flex-row justify-center"}>
+                      <button className={"btn btn-warning"}>Try the new AI recipe maker</button>
                   </div>
               </div>
           </div>
