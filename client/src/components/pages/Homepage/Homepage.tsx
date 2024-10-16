@@ -2,6 +2,8 @@ import {ListComponent} from "./ListComponent";
 import {VscAccount} from "react-icons/vsc";
 import {MdOutlineArrowForward} from "react-icons/md";
 import React from "react";
+import {interactWithOpenAI} from "../../../processing/openAiAPI";
+import {getIngredients} from "../../../processing/AHApi";
 
 const melkSrc = require("./Melk.png")
 const knokSrc = require("./rookworst.png")
@@ -13,6 +15,13 @@ interface HomepageProps {
 }
 
 export function Homepage({ setSelected }: HomepageProps) {
+
+    const handleOnClick = async () => {
+        const {ingredientList, recipe} = await interactWithOpenAI("");
+        const result = await getIngredients(ingredientList);
+        console.log(result)
+    }
+
   return (
       <div className="w-full h-full flex flex-col gap-4 p-4">
           <div className={"flex flex-row justify-between"}>
