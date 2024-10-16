@@ -1,6 +1,8 @@
 import {ListComponent} from "./ListComponent";
 import {VscAccount} from "react-icons/vsc";
 import {MdOutlineArrowForward} from "react-icons/md";
+import {interactWithOpenAI} from "../../../processing/openAiAPI";
+import {getIngredients} from "../../../processing/AHApi";
 
 const melkSrc = require("./Melk.png")
 const knokSrc = require("./rookworst.png")
@@ -8,6 +10,14 @@ const snacks = require("./snacks.png")
 const jumbo = require("./jumbologo.png")
 
 export function Homepage() {
+
+    const handleOnClick = async () => {
+        const {ingredientList, recipe} = await interactWithOpenAI("");
+        const result = await getIngredients(ingredientList);
+        console.log(result)
+    }
+
+
   return (
       <div className="w-full h-full flex flex-col gap-4 p-4">
           <div className={"flex flex-row justify-between"}>
@@ -87,7 +97,7 @@ export function Homepage() {
               <div className={"flex flex-col gap-2"}>
                   <span className={"flex flex-col gap-2 text-black font-semibold"}>Get Inspired!</span>
                   <div className={"w-full h-fit flex flex-row justify-center"}>
-                      <button className={"btn btn-warning"}>Try the new AI recipe maker</button>
+                      <button className={"btn btn-warning"} onClick={handleOnClick}>Try the new AI recipe maker</button>
                   </div>
               </div>
           </div>
