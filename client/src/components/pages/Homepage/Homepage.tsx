@@ -1,13 +1,18 @@
 import {ListComponent} from "./ListComponent";
 import {VscAccount} from "react-icons/vsc";
 import {MdOutlineArrowForward} from "react-icons/md";
+import React from "react";
 
 const melkSrc = require("./Melk.png")
 const knokSrc = require("./rookworst.png")
 const snacks = require("./snacks.png")
 const jumbo = require("./jumbologo.png")
 
-export function Homepage() {
+interface HomepageProps {
+    setSelected: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export function Homepage({ setSelected }: HomepageProps) {
   return (
       <div className="w-full h-full flex flex-col gap-4 p-4">
           <div className={"flex flex-row justify-between"}>
@@ -87,7 +92,9 @@ export function Homepage() {
               <div className={"flex flex-col gap-2"}>
                   <span className={"flex flex-col gap-2 text-black font-semibold"}>Get Inspired!</span>
                   <div className={"w-full h-fit flex flex-row justify-center"}>
-                      <button className={"btn btn-warning"}>Try the new AI recipe maker</button>
+                      <button className="btn btn-warning" onClick={() => setSelected(5)}>
+                          Try the new AI recipe maker
+                      </button> {/* Set selected to 5 to navigate to RecipeChat */}
                   </div>
               </div>
           </div>

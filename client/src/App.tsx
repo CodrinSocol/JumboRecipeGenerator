@@ -1,7 +1,8 @@
-import {ReactElement, useState} from 'react';
+import React, {ReactElement, useState} from 'react';
 import {Footer} from "./components/FooterNavigation";
 import {Homepage} from "./components/pages/Homepage/Homepage";
 import {ShoppingCart} from "./components/pages/ShoppingCart/ShoppingCart";
+import {RecipeChat} from "./components/pages/RecipeChat/RecipeChat";
 
 function App() {
     const [selected, setSelected] = useState<number>(0);
@@ -12,7 +13,7 @@ function App() {
             <div className="camera"></div>
             <div className="display w-full h-full bg-white flex flex-col justify-between">
                 <div className={"flex flex-1"}>
-                    {getContentToRender(selected)}
+                    {getContentToRender(selected, setSelected)}
                 </div>
                 <Footer selected={selected} setSelected={setSelected}/>
             </div>
@@ -21,10 +22,11 @@ function App() {
     );
 }
 
-function getContentToRender(selected: number): ReactElement {
+function getContentToRender(selected: number, setSelected: React.Dispatch<React.SetStateAction<number>>): ReactElement {
     switch(selected) {
-        case 0: return <Homepage />;
+        case 0: return <Homepage setSelected={setSelected} />;
         case 4: return <ShoppingCart />;
+        case 5: return <RecipeChat />;
         default: return <div>Not implemented</div>;
     }
 }
