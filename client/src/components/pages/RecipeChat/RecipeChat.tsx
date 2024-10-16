@@ -1,117 +1,129 @@
-import React, { useState, useRef, useEffect, ReactNode } from 'react';
+import React, {useState, useRef, ReactNode, useEffect} from 'react';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import {interactWithOpenAI} from "../../../processing/openAiAPI";
+import {getIngredients, JumboProduct} from "../../../processing/AHApi";
+
+const jumbo = require('../Homepage/jumbologo.png')
 
 // Define the type for a message
-type Message = {
+export interface Message {
     text: string | ReactNode; // Allow text to be either a string or ReactNode (JSX)
     isUser: boolean;
+    isLoading: boolean;
 };
 
-const recipe = `Pasta Carbonara:\n\n**Ingredients:**\n- 200g Spaghetti\n- 100g Pancetta or Bacon\n- 2 large eggs\n- 50g Parmesan cheese\n- Black pepper\n- Salt\n\n**Instructions:**\n1. Boil the spaghetti in salted water until al dente.\n2. While pasta is boiling, fry the pancetta/bacon until crispy.\n3. Beat eggs in a bowl, add grated Parmesan, and mix.\n4. Once spaghetti is cooked, drain it and toss in the pan with pancetta.\n5. Off the heat, quickly toss the spaghetti with the egg mixture.\n6. Season with black pepper and serve immediately.`;
+interface RecipeChatProps {
+    setSelected: (index: number) => void;
+    setJumboProducts: React.Dispatch<React.SetStateAction<JumboProduct[]>>;
+    messages: Message[];
+    setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+}
 
-const missingIngredients = ['Pancetta', 'Parmesan cheese'];
-
-export function RecipeChat({ setSelected }: { setSelected: React.Dispatch<React.SetStateAction<number>> }) {
-    const [messages, setMessages] = useState<Message[]>([ // Use the Message type
-        { text: "Hi! I can help you make recipes. What ingredients do you have?", isUser: false },
-    ]);
+export function RecipeChat({ setSelected, setJumboProducts, messages, setMessages }: RecipeChatProps) {
     const [inputMessage, setInputMessage] = useState('');
-    const [secondMessageSent, setSecondMessageSent] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    // const [currentProducts, setCurrentProducts] = useState<JumboProduct[]>([]);
     const messageEndRef = useRef<HTMLDivElement | null>(null);
 
-    // Scroll to the bottom whenever messages change
     useEffect(() => {
         if (messageEndRef.current) {
             messageEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
 
-    const handleSend = () => {
-        if (inputMessage.trim() === '') return;
-
-        // Add the user's message to the chat
-        const userMessage: Message = { text: inputMessage, isUser: true };
-        setMessages(prevMessages => [...prevMessages, userMessage]);
+    const handleButtonClick = () => {
+        const userMessage: Message = { text: inputMessage, isUser: true, isLoading: false };
+        const loadingMessage: Message = { text:
+                <div className={"w-16 h-16 flex flex-row items-center justify-center"}>
+                    <span className={"loading loading-dots text-warning text-xl"}></span>
+                </div>
+            , isUser: false, isLoading: true
+        };
+        setMessages(prevMessages => [...prevMessages, userMessage, loadingMessage]);
         setInputMessage('');
+        void handleSend();
+    }
+    const handleSend = async () => {
+        if (inputMessage.trim() === '') return;
+        setLoading(true)
 
-        // AI's first response after user enters ingredients
-        setTimeout(() => {
-            const aiMessage1: Message = { text: "Great! Here's a recipe you can try with those ingredients.", isUser: false };
-            setMessages(prevMessages => [...prevMessages, aiMessage1]);
+        const {ingredientList, recipe} = await interactWithOpenAI(inputMessage);
+        const jumboProducts = await getIngredients(ingredientList);
+        console.log(jumboProducts);
+        setJumboProducts(prevState => [...prevState, ...jumboProducts]);
 
-            if (!secondMessageSent) {
-                setTimeout(() => {
-                    // Send the Pasta Carbonara recipe
-                    const pastaCarbonaraMessage: Message = { text: recipe, isUser: false };
-                    setMessages(prevMessages => [...prevMessages, pastaCarbonaraMessage]);
+        const aiMessage1: Message = {
+            text: "Great! Here's a recipe you can try with those ingredients.",
+            isUser: false,
+            isLoading: false
+        };
+        setMessages(prevMessages => [...prevMessages.filter(x => !x.isLoading), aiMessage1]);
 
-                    // Send missing ingredients message
-                    setTimeout(() => {
-                        const missingIngredientsMessage: Message = {
-                            text: `You are missing the following ingredients: ${missingIngredients.join(', ')}. Would you like to add the missing ingredients to your shopping cart?`,
-                            isUser: false,
-                        };
-                        setMessages(prevMessages => [...prevMessages, missingIngredientsMessage]);
 
-                        // Send the emoji message as a new message
-                        setTimeout(() => {
-                            const emojiMessage: Message = {
-                                text: (
-                                    <div className="flex gap-2 mt-2">
-                                        <FaThumbsUp
-                                            onClick={handleAddToCart}
-                                            className="text-yellow-400 cursor-pointer"
-                                        />
-                                        <FaThumbsDown
-                                            onClick={handleDislike}
-                                            className="text-red-400 cursor-pointer"
-                                        />
-                                    </div>
-                                ),
-                                isUser: false,
-                            };
-                            setMessages(prevMessages => [...prevMessages, emojiMessage]);
-                        }, 1000);
-                    }, 2000);
-                }, 2000);
-                setSecondMessageSent(true);
-            }
-        }, 1500);
-    };
+        const recipeMessageReply: Message = {text: recipe, isUser: false, isLoading: false};
+        await addMessageWithDelay(recipeMessageReply);
+
+        // Send missing ingredients message
+        const missingIngredientsMessage: Message = {
+            text: `You are missing the following ingredients: ${ingredientList.join(', ')}. Would you like to add the missing ingredients to your shopping cart?`,
+            isUser: false,
+            isLoading: false,
+        };
+
+        await addMessageWithDelay(missingIngredientsMessage);
+        const emojiMessage: Message = {
+            text: (
+                <div className="flex gap-2 mt-2">
+                    <FaThumbsUp
+                        onClick={handleAddToCart}
+                        className="text-yellow-400 cursor-pointer"
+                    />
+                    <FaThumbsDown
+                        className="text-red-400 cursor-pointer"
+                    />
+                </div>
+            ),
+            isUser: false,
+            isLoading: false,
+        };
+        await addMessageWithDelay(emojiMessage);
+
+        setLoading(false)
+    }
+
+    const addMessageWithDelay = async (newMessage: Message) => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setMessages(prevMessages => [...prevMessages, newMessage]);
+    }
 
     const handleAddToCart = () => {
         setSelected(4); // Navigate to the shopping cart
     };
 
-    const handleDislike = () => {
-        // Handle the dislike action, if necessary
-        console.log("Disliked the suggestion.");
-    };
-
     return (
         <div className="w-full h-full flex flex-col p-4 gap-4">
-            {/* Header */}
-            <div className="text-center text-xl font-semibold mb-4 mt-4">Recipe Maker</div>
-
-            {/* Message container with scrolling */}
-            <div className="flex flex-col gap-2 flex-1 p-4" style={{ maxHeight: '70vh', overflow: 'hidden' }}>
-                <div className="overflow-y-auto scrollbar-hidden flex-1">
-                    {messages.map((message, index) => (
+            <img src={jumbo} alt={'asd'} className={"pt-1 rounded-xl object-contain w-32 h-fit"}/>
+            <div className="h-full w-full flex overflow-y-auto flex-col gap-2">
+                {messages.map((message, index) => (
+                    <div
+                        key={index}
+                        className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} mb-2`}
+                    >
                         <div
-                            key={index}
-                            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'} mb-2`}
+                            className={`p-3 rounded-lg ${
+                                message.isUser ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-black'
+                            } max-w-xs`}
                         >
-                            <div
-                                className={`p-3 rounded-lg ${
-                                    message.isUser ? 'bg-yellow-400 text-black' : 'bg-gray-200 text-black'
-                                } max-w-xs`}
-                            >
-                                {message.text} {/* Directly render text which can be either string or JSX */}
-                            </div>
+                            {typeof message.text === 'string' ? message.text.split('\n').map((line, index) => (
+                                <React.Fragment key={index}>
+                                    {line}
+                                    <br/>
+                                </React.Fragment>
+                            )) : message.text}
                         </div>
-                    ))}
-                    <div ref={messageEndRef} />
-                </div>
+                    </div>
+                ))}
+                <div ref={messageEndRef}/>
             </div>
 
             {/* Input and send button */}
@@ -122,7 +134,8 @@ export function RecipeChat({ setSelected }: { setSelected: React.Dispatch<React.
                     onChange={(e) => setInputMessage(e.target.value)}
                     placeholder="Type a message..."
                 />
-                <button onClick={handleSend} className="btn bg-yellow-400 hover:bg-yellow-500 text-black">
+                <button onClick={handleButtonClick} disabled={loading}
+                        className="btn bg-yellow-400 hover:bg-yellow-500 text-black">
                     Send
                 </button>
             </div>
