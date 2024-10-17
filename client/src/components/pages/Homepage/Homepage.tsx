@@ -31,7 +31,7 @@ export function Homepage({ setSelected }: HomepageProps) {
 
 
           <div className={"flex flex-col"}>
-              <span className={"text-black font-bold"}>Hi Ting!</span>
+              <span className={"text-black font-bold"}>Hi, Anna!</span>
               <input type="text" placeholder={"Zoek een product"}
                      className={"input input-primary input-ghost input-sm"}/>
           </div>
