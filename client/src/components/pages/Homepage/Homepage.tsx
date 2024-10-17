@@ -1,23 +1,25 @@
 import {ListComponent} from "./ListComponent";
 import {VscAccount} from "react-icons/vsc";
 import {MdOutlineArrowForward} from "react-icons/md";
-import {interactWithOpenAI} from "../../../processing/openAiAPI";
-import {getIngredients} from "../../../processing/AHApi";
 
-const melkSrc = require("./Melk.png")
-const knokSrc = require("./rookworst.png")
-const snacks = require("./snacks.png")
-const jumbo = require("./jumbologo.png")
+interface HomepageProps {
+    setSelected: (index: number) => void;
+}
+const jumbo = require('./jumbologo.png')
 
-export function Homepage() {
+const extraVirgin = "https://static.ah.nl/dam/product/AHI_4354523130303131313135?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+const knokflook = "https://static.ah.nl/dam/product/AHI_43545239353732353335?revLabel=4&rendition=800x800_JPG_Q90&fileType=binary"
+const heinzTomatoFritz = "https://static.ah.nl/dam/product/AHI_4354523130303930323439?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
 
-    const handleOnClick = async () => {
-        const {ingredientList, recipe} = await interactWithOpenAI("");
-        const result = await getIngredients(ingredientList);
-        console.log(result)
-    }
+const zeezout = "https://static.ah.nl/dam/product/AHI_43545239383533353231?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+const swaartepeper = "https://static.ah.nl/dam/product/AHI_43545239353534323234?revLabel=3&rendition=800x800_JPG_Q90&fileType=binary"
+const kaas = "https://static.ah.nl/dam/product/AHI_4354523130303431343436?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
 
+const pasta = "https://static.ah.nl/dam/product/AHI_4354523130303835393138?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+const groenteBuillon = "https://static.ah.nl/dam/product/AHI_4354523130303537383535?revLabel=1&rendition=800x800_JPG_Q90&fileType=binary"
+const bakpoeder = "https://static.ah.nl/dam/product/AHI_43545239383532353635?revLabel=2&rendition=800x800_JPG_Q90&fileType=binary"
 
+export function Homepage({ setSelected }: HomepageProps) {
   return (
       <div className="w-full h-full flex flex-col gap-4 p-4">
           <div className={"flex flex-row justify-between"}>
@@ -41,14 +43,14 @@ export function Homepage() {
                   </div>
                   <div className={"flex flex-row w-full h-fit gap-4"}>
                       <ListComponent
-                          imageSrc={melkSrc}
-                          title={"Halfvolle Melk 1L"}/>
+                          imageSrc={zeezout}
+                          title={"Sea Salt"}/>
                       <ListComponent
-                          imageSrc={knokSrc}
-                          title={"UNIX rookworst"}/>
+                          imageSrc={swaartepeper}
+                          title={"Black Pepper"}/>
                       <ListComponent
-                          imageSrc={snacks}
-                          title={"Mini Snacks"}/>
+                          imageSrc={kaas}
+                          title={"Gouda Cheese"}/>
                   </div>
               </div>
 
@@ -59,14 +61,14 @@ export function Homepage() {
                   </div>
                   <div className={"flex flex-row w-full h-fit gap-4"}>
                       <ListComponent
-                          imageSrc={melkSrc}
-                          title={"Halfvolle Melk 1L"}/>
+                          imageSrc={extraVirgin}
+                          title={"Extra Virgin Olive Oil"}/>
                       <ListComponent
-                          imageSrc={knokSrc}
-                          title={"UNIX rookworst"}/>
+                          imageSrc={knokflook}
+                          title={"Garlic Sauce"}/>
                       <ListComponent
-                          imageSrc={snacks}
-                          title={"Mini Snacks"}/>
+                          imageSrc={heinzTomatoFritz}
+                          title={"Heinz Tomato Fritz"}/>
                   </div>
               </div>
 
@@ -77,18 +79,18 @@ export function Homepage() {
                   </div>
                   <div className={"flex flex-row w-full h-fit gap-4"}>
                       <ListComponent
-                          imageSrc={melkSrc}
-                          title={"Halfvolle Melk 1L"}
+                          imageSrc={pasta}
+                          title={"Bartolli Pasta"}
                           isOffer={true}
                           offerLabel={"2+1"}/>
                       <ListComponent
-                          imageSrc={knokSrc}
-                          title={"UNIX rookworst"}
+                          imageSrc={groenteBuillon}
+                          title={"Groenten Buillon"}
                           isOffer={true}
                           offerLabel={"3 voor 4.00"}/>
                       <ListComponent
-                          imageSrc={snacks}
-                          title={"Mini Snacks"}
+                          imageSrc={bakpoeder}
+                          title={"Bakpoeder"}
                           isOffer={true}
                           offerLabel={"2e halve prijs"}
                       />
@@ -97,7 +99,9 @@ export function Homepage() {
               <div className={"flex flex-col gap-2"}>
                   <span className={"flex flex-col gap-2 text-black font-semibold"}>Get Inspired!</span>
                   <div className={"w-full h-fit flex flex-row justify-center"}>
-                      <button className={"btn btn-warning"} onClick={handleOnClick}>Try the new AI recipe maker</button>
+                      <button className="btn btn-warning" onClick={() => setSelected(2)}>
+                          Try the new AI recipe maker
+                      </button>
                   </div>
               </div>
           </div>
