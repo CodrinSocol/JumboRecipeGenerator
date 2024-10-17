@@ -5,3 +5,5 @@ node_modules
 /client/.git
 
 /client/.env
+/server/.next
+/server/nextjs
