@@ -48,7 +48,14 @@ export function RecipeChat({ setSelected, setJumboProducts, messages, setMessage
         setLoading(true)
 
         const {ingredientList, recipe} = await interactWithOpenAI(inputMessage);
-        const jumboProducts = await fetch("https://jumbo-recipe-generator-ek73.vercel.app/api")
+        const jumboProducts = await fetch("https://jumbo-recipe-generator-ek73.vercel.app/api", {
+            method: "POST",
+            body: JSON.stringify({ingredientList}),
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            }
+        })
         if(jumboProducts.ok) {
             const data = await jumboProducts.json() as JumboProduct[]
             console.log(data)
