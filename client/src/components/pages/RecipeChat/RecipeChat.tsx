@@ -52,8 +52,7 @@ export function RecipeChat({ setSelected, setJumboProducts, messages, setMessage
             method: "POST",
             body: JSON.stringify({ingredientList}),
             headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
+                "Content-Type": "application/json"
             }
         })
         if(jumboProducts.ok) {
