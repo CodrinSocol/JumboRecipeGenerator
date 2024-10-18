@@ -1,15 +1,17 @@
 "use server"
 
 import {NextRequest, NextResponse} from "next/server";
-import cors, {runMiddleware} from "../../corsMiddelware";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     const ingredientList =( await req.json()).ingredientList;
 
-    await runMiddleware(req, res, cors);
 
     const products = await getIngredients(ingredientList);
-    return NextResponse.json(products);
+    const res = NextResponse.json(products);
+    res.headers.set('Access-Control-Allow-Origin', '*');
+    res.headers.set('Access-Control-Allow-Methods', 'POST');
+
+    return res;
 }
 
 async function getIngredients(ingredientList: string[]) {
