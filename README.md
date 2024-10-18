@@ -56,6 +56,20 @@ yarn install
 yarn start
 ```
 
+Proxy Server installation (to avoid CORS policy)
+1. Navigate to the `/server` directory:
+```
+cd server
+```
+2. Install the dependencies:
+```
+yarn install
+```
+3. Start the development server:
+```
+yarn start
+```
+
 ## Contributors
 These are the students from team 10 that have contributed to this project:
 
