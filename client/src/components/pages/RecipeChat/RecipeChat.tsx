@@ -48,9 +48,13 @@ export function RecipeChat({ setSelected, setJumboProducts, messages, setMessage
         setLoading(true)
 
         const {ingredientList, recipe} = await interactWithOpenAI(inputMessage);
-        const jumboProducts = await getIngredients(ingredientList);
-        console.log(jumboProducts);
-        setJumboProducts(prevState => [...prevState, ...jumboProducts]);
+        const jumboProducts = await fetch("https://jumbo-recipe-generator-ek73.vercel.app/api")
+        if(jumboProducts.ok) {
+            const data = await jumboProducts.json() as JumboProduct[]
+            console.log(data)
+            setJumboProducts(prevState => [...prevState, ...data]);
+
+        }
 
         const aiMessage1: Message = {
             text: "Great! Here's a recipe you can try with those ingredients.",
