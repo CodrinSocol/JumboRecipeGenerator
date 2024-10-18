@@ -1,15 +1,16 @@
 {
   "dependencies": {
+    "@types/node": "^22.7.6",
+    "@types/react": "^18.3.11",
     "@types/typescript": "^2.0.0",
+    "cors": "^2.8.5",
     "next": "^14.2.15",
     "nextjs": "^0.0.3",
     "node": "^22.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vercel": "^37.9.0",
-    "@types/node": "^22.7.6",
-    "@types/react": "^18.3.11",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vercel": "^37.9.0"
   },
   "scripts": {
     "dev": "yarn install && next dev",
