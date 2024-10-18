@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/cors": "^2.8.17",
     "@types/node": "^22.7.6",
     "@types/react": "^18.3.11",
     "@types/typescript": "^2.0.0",
